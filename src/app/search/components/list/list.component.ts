@@ -1,3 +1,4 @@
+import { IResponse } from './../../search.model';
 import { SearchTextService } from './../../search.service';
 import { ListService } from '../../search.service';
 import { IMovie } from '../../search.model';
@@ -33,8 +34,9 @@ export class ListComponent {
         this.searchTextService.setSearchText(arg);
         this.$items = this.search(arg);
       } else {
-        const arg = this.searchTextService.getSearchText();
-        this.$items = this.search(arg);
+        this.searchTextService.$getSearchText()
+          .pipe(tap(res => this.$items = this.search(res)))
+          .subscribe();
       }
     })
   }
@@ -43,11 +45,10 @@ export class ListComponent {
     this.router.navigateByUrl('search/detail/' + item.Title);
   }
   //perform search s=
-  public search(params: any): any {
+  public search(params: string): Observable<IMovie[]> {
     return this.listSrv.get(`${params}`)
-      .pipe(debounceTime(5000), map((r: any) => r.Search))
+      .pipe(debounceTime(5000), map((r: IResponse) => r.Search))
   }
-
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();

@@ -1,11 +1,11 @@
-import { IMovie } from './search.model';
+import { IMovie, IResponse } from './search.model';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from 'src/app/services/base.service';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class ListService extends BaseService<IMovie> {
+export class ListService extends BaseService<IResponse> {
   constructor(http: HttpClient) {
     super(http, '');
   }
@@ -23,7 +23,7 @@ export class SearchTextService {
     this.subject.next();
   }
 
-  getSearchText(): Observable<any> {
+  $getSearchText(): Observable<any> {
     return this.subject.asObservable();
   }
 }

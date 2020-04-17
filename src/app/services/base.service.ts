@@ -25,8 +25,8 @@ export abstract class BaseService<T> {
     });
   }
 
-  public get(param?: string): Observable<T[]> {
-    return this.http.get<T[]>(`${this.baseUrl}${this.entity}${param ? param : ''}`,
+  public get(param?: string): Observable<T> {
+    return this.http.get<T>(`${this.baseUrl}${this.entity}${param ? param : ''}`,
       { headers: this.commonHeaders() });
   }
 }
